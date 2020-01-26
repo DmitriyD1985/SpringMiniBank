@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" type="text/css"
+          th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
+
+    <title>Перевод</title>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                    aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span> <span
+                    class="icon-bar"></span> <span class="icon-bar"></span> <span
+                    class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#" th:href="@{/}">Sberminibank</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Выйти</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<br>
+<br>
+
+<div th:replace="~{navigation :: navigation(History)}"/>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+
+            <div th:if="${param.success}">
+                <div class="alert alert-info">Перевод совершнен </div>
+            </div>
+
+            <h1>Перевод средств</h1>
+            <form th:action="@{/transfer}" th:object="${operation}" method="post">
+
+                <p class="error-message" th:if="${#fields.hasGlobalErrors()}"
+                   th:each="error : ${#fields.errors('global')}" th:text="${error}">НЕВЕРНЫЙ ВВОД</p>
+
+                <div class="form-group"
+                     th:classappend="${#fields.hasErrors('operationSum')}? 'has-error':''">
+                    <label for="operationSum" class="control-label">Введите сумму</label> <input
+                        id="operationSum" class="form-control" th:field="*{operationSum}" />
+                    <p class="error-message"
+                       th:each="error : ${#fields.errors('operationSum')}"
+                       th:text="${error}">НЕВЕРНЫЙ ВВОД - 3</p>
+                </div>
+
+                <div class="form-group"
+                     th:classappend="${#fields.hasErrors('usernameOne')}? 'has-error':''">
+                    <label for="usernameOne" class="control-label">Введите логин полкчателя</label>
+                    <input
+                            id="usernameOne" class="form-control" th:field="*{usernameOne}" />
+                    <p class="error-message"
+                       th:each="error : ${#fields.errors('usernameOne')}" th:text="${error}">НЕВЕРНЫЙ ВВОД - 4</p>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">Перевести</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript"
+        th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
+<script type="text/javascript"
+        th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+</body>
+</html>
