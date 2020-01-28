@@ -6,7 +6,7 @@ import com.demidov.springsberminibank.model.Operation;
 import java.util.List;
 
 public interface TransferAndRefillController {
-    List <Operation> findOperationByUsername(String username);
+    List <Operation> findOperationsByUsername(String username);
     Operation saveOperationTransfer(MakeOperationDto makeOperationDto);
     Operation saveOperationRefill(MakeOperationDto makeOperationDto);
     List <Operation> findAllHistory();

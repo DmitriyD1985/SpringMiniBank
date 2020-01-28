@@ -17,7 +17,8 @@ public class TransferAndRefillControllerImpl implements TransferAndRefillControl
     private UserRepository userRepository;
 
     @Override
-    public List<Operation> findOperationByUsername(String username) {
+    public List<Operation> findOperationsByUsername(String username) {
+        System.out.println(username);
         return operationRepository.findAllByUsername(username);
     }
 
@@ -46,6 +47,8 @@ public class TransferAndRefillControllerImpl implements TransferAndRefillControl
         operation.setOperationName(makeOperationDto.getOperationName());
         operation.setOperationName("refill");
         operation.setOperationSum(makeOperationDto.getOperationSum());
+        System.out.println(makeOperationDto.getOperationName());
+        System.out.println(makeOperationDto.getUsername());
         User user = userRepository.findByUsername(makeOperationDto.getUsername());
         user.setAccount(user.getAccount()+operation.getOperationSum());
         userRepository.save(user);

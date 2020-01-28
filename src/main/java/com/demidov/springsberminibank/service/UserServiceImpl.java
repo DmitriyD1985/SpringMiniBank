@@ -31,6 +31,7 @@ public class UserServiceImpl implements UserService {
 
     public User save(UserRegistrationDto registration){
         User user = new User();
+        user.setId(4L);
         user.setFirstName(registration.getFirstName());
         user.setLastName(registration.getLastName());
         user.setUsername(registration.getUsername());
@@ -55,9 +56,4 @@ public class UserServiceImpl implements UserService {
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toList());
     }
-
-
-
-
-
 }
