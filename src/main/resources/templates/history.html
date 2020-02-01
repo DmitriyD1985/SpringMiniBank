@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html xmlns:th="http://www.thymeleaf.org">
 
 <html lang="en">
@@ -8,41 +7,40 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-    <title>Title</title>
+    <title>История операций</title>
 </head>
 <body>
 <div th:fragment="history(activeTab)">
-    <div class="containerWithTable">
-        <div th:replace="~{navigation :: navigation(History)}"/>
+    <div th:replace="~{navigation :: navigation(History)}"/>
+</div>
+</div>
 
-        <h1 th:inline="text">Вы вошли как: [[${#httpServletRequest.remoteUser}]]!</h1>
+        <h3 th:inline="text">Вы вошли как: [[${#httpServletRequest.remoteUser}]]!</h3>
         <form th:action="@{/logout}" method="post">
             <input type="submit" value="Выйти"/>
         </form>
-
-        <h1>Операции пользователя</h1>
-        <span th:if="${allhistory.size() == 0}"> Пользователь не проводил операций</span>
-        <table th:if="${allhistory.size() > 0}" class="table">
+        <h2>История операций</h2>
+        <table class="table">
             <thead class="thead-dark">
             <tr>
-                <th>ID операции</th>
-                <th>Тип операции</th>
-                <th>Сумма</th>
-                <th>Отправитель</th>
-                <th>Получатель</th>
+                <th scope="col"> Тип операции </th>
+                <th scope="col"> Сумма </th>
+                <th scope="col"> Отправитель </th>
+                <th scope="col"> Получатель </th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="operation : ${allhistory}">
-                <td th:text="${operation.getOperationId()}"/>
-                <td th:text="${operation.getOperationName()}"/>
-                <td th:text="${operation.getOperationSum()}"/>
-                <td th:text="${operation.getUsername()}"/>
-                <td th:text="${operation.getUsernameOne()}"/>
+            <tr th:if="${operations.isEmpty()}">
+                <td colspan="4"> У пользователя нет операций </td>
+            </tr>
+            <tr th:each="operation : ${operations}">
+                <td><span th:text="${operation.getOperationSum()}"> сумма </span></td>
+                <td><span th:text="${operation.getOperationName()}"> тип </span></td>
+                <td><span th:text="${operation.getUsername()}"> отправитель </span></td>
+                <td><span th:text="${operation.getUsernameOne()}"> получатель </span></td>
             </tr>
             </tbody>
         </table>
-    </div>
 
 </body>
 </html>

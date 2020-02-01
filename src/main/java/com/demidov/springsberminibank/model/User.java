@@ -17,7 +17,7 @@ public class User {
     private String lastName;
     private String username;
     private String password;
-    private long account;
+    private String account;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
@@ -31,18 +31,20 @@ public class User {
     public User() {
     }
 
-    public User(String firstName, String lastName, String username, String password) {
+    public User(String firstName, String lastName, String username, String password, String account) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.password = password;
+        this.account = account;
     }
 
-    public User(String firstName, String lastName, String username, String password, Collection<Role> roles) {
+    public User(String firstName, String lastName, String username, String password, String account, Collection<Role> roles) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.password = password;
+        this.account = account;
         this.roles = roles;
     }
 
@@ -94,11 +96,11 @@ public class User {
         this.roles = roles;
     }
 
-    public long getAccount() {
+    public String getAccount() {
         return account;
     }
 
-    public void setAccount(long account) {
+    public void setAccount(String account) {
         this.account = account;
     }
 

@@ -1,41 +1,55 @@
 package com.demidov.springsberminibank.web;
 
-import com.demidov.springsberminibank.service.TransferAndRefillController;
+import com.demidov.springsberminibank.model.User;
+import com.demidov.springsberminibank.service.TransferAndRefillService;
+import com.demidov.springsberminibank.service.UserService;
 import com.demidov.springsberminibank.web.dto.MakeOperationDto;
+import com.demidov.springsberminibank.web.dto.UserRegistrationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 
-    @Controller
-    @RequestMapping("/transfer")
-    public class TransferController {
+@Controller
+@RequestMapping("/transfer")
+public class TransferController {
 
-        @Autowired
-        private TransferAndRefillController transferAndRefillController;
+    @Autowired
+    private TransferAndRefillService transferAndRefillService;
+    @Autowired
+    private UserService userService;
 
-        @ModelAttribute("operation")
-        public MakeOperationDto makeOperationDto() {
-            return new MakeOperationDto();
-        }
+    @ModelAttribute("operation")
+    public MakeOperationDto makeOperationDto() {
+        return new MakeOperationDto();
+    }
 
         @GetMapping
-        public String showTransferForm(Model model) {
+        public String operationForm(Model model) {
             return "transfer";
         }
 
-        @PostMapping
-        public String makeTransferOperation(@ModelAttribute("operation") @Valid MakeOperationDto operationDto,
-                                          BindingResult result) {
+    @PostMapping
+    public String makeTransfer(@ModelAttribute("operation") @Valid MakeOperationDto makeOperationDto,
+                                      BindingResult result) {
+            User checkUser = userService.findByUsername(makeOperationDto.getUsernameOne());
 
-            transferAndRefillController.saveOperationTransfer(operationDto);
-            return "redirect:/history?success";
+        if (checkUser == null) {
+            result.rejectValue("usernameOne", "Получатель с таким именем не существует");
+        }
+        else if(Long.parseLong(makeOperationDto.getOperationSum()) > Long.parseLong(checkUser.getAccount()))
+        {
+            result.rejectValue("operationSum", "На счете недостаточно средств");
         }
 
-    }
+            if (result.hasErrors()) {
+                return "redirect:/error";
+            }
+            String operationName = "transfer";
+            transferAndRefillService.save(makeOperationDto, operationName);
+            return "redirect:/history";
+        }
+}

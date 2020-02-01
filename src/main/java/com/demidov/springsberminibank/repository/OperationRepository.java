@@ -10,6 +10,4 @@ import java.util.List;
 @Repository
 public interface OperationRepository extends JpaRepository<Operation, Long> {
     List<Operation> findAllByUsername(String username);
-
-    User findByUsername(String username);
 }

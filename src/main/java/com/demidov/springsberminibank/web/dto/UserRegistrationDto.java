@@ -1,5 +1,6 @@
 package com.demidov.springsberminibank.web.dto;
 
+import javax.persistence.Column;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotEmpty;
 
@@ -29,8 +30,6 @@ public class UserRegistrationDto {
     @NotEmpty
     private String confirmUsername;
 
-    @AssertTrue
-    private Boolean terms;
 
     public String getFirstName() {
         return firstName;
@@ -79,4 +78,5 @@ public class UserRegistrationDto {
     public void setConfirmUsername(String confirmUsername) {
         this.confirmUsername = confirmUsername;
     }
+
 }

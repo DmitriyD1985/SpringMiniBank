@@ -1,7 +1,8 @@
 package com.demidov.springsberminibank.web;
 
-import com.demidov.springsberminibank.service.TransferAndRefillController;
+import com.demidov.springsberminibank.service.TransferAndRefillService;
 import com.demidov.springsberminibank.web.dto.MakeOperationDto;
+import com.demidov.springsberminibank.web.dto.MakeRefill;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,30 +12,33 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/refill")
 public class RefillController {
 
     @Autowired
-    private TransferAndRefillController transferAndRefillController;
+    private TransferAndRefillService transferAndRefillService;
 
     @ModelAttribute("operation")
-    public MakeOperationDto makeOperationDto() {
-        return new MakeOperationDto();
+    public MakeRefill makeRefill() {
+        return new MakeRefill();
     }
 
     @GetMapping
-    public String showTransferForm(Model model) {
+    public String operationForm(Model model) {
         return "refill";
     }
 
     @PostMapping
-    public String makeTransferOperation(@ModelAttribute("operation") MakeOperationDto operationDto,
-                                        BindingResult result) {
-
-        transferAndRefillController.saveOperationRefill(operationDto);
-        return "redirect:/history?success";
+    public String makeRefill(@ModelAttribute("operation") @Valid MakeRefill makeRefill,
+                                      BindingResult result) {
+        if (result.hasErrors()) {
+            return "error";
+        }
+        String operationName = "refill";
+        transferAndRefillService.save(makeRefill, operationName);
+        return "redirect:/history";
     }
-
 }

@@ -11,7 +11,7 @@ public class Operation {
     @Column(name = "operationName")
     private String operationName;
     @Column(name = "operationSum")
-    private long operationSum;
+    private String operationSum;
     @Column(name = "usernameOne")
     private String usernameOne;
 
@@ -21,7 +21,7 @@ public class Operation {
     public Operation() {
     }
 
-    public Operation(String operationName, long operationSum, String popeationContr, String userLogin, int operationId) {
+    public Operation(String operationName, String operationSum, String popeationContr, String userLogin, int operationId) {
         this.operationName = operationName;
         this.operationSum = operationSum;
         this.usernameOne = popeationContr;
@@ -33,7 +33,7 @@ public class Operation {
         return operationid;
     }
 
-    public void setOperationId(long operationId) {
+    public void setOperationId(int operationId) {
         this.operationid = operationId;
     }
 
@@ -45,11 +45,11 @@ public class Operation {
         this.operationName = operationName;
     }
 
-    public long getOperationSum() {
+    public String getOperationSum() {
         return operationSum;
     }
 
-    public void setOperationSum(long operationSum) {
+    public void setOperationSum(String operationSum) {
         this.operationSum = operationSum;
     }
 

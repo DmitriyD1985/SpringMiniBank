@@ -5,34 +5,22 @@
 <head>
     <meta charset="utf-8"/>
 
-    <title>Application</title>
+    <title>Навигация</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 </head>
 <body>
+
 <div th:fragment="navigation(activeTab)">
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" th:href="@{/}">Домашняя</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/history}">История операций</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/refill}">Пополнить счет</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/transfer}">Сделать перевод</a>
-                </li>
-            </ul>
-        </div>
+    <nav class="nav nav-pills flex-column flex-sm-row">
+        <a class="flex-sm-fill text-sm-center nav-link" th:href="@{/}">Домашняя</a>
+        <a class="flex-sm-fill text-sm-center nav-link" th:href="@{/history}">История операций</a>
+        <a class="flex-sm-fill text-sm-center nav-link" th:href="@{/refill}">Пополнить счет</a>
+        <a class="flex-sm-fill text-sm-center nav-link" th:href="@{/transfer}">Сделать перевод</a>
     </nav>
 </div>
+
 </body>
 </html>
